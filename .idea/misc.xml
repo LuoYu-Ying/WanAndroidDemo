@@ -5,6 +5,9 @@
       <map>
         <entry key="..\:/Programming/AndroidDemoCodes/WanAndroidDemo/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Programming/AndroidDemoCodes/WanAndroidDemo/app/src/main/res/layout/fragment_login.xml" value="0.25885416666666666" />
+        <entry key="..\:/Programming/AndroidDemoCodes/WanAndroidDemo/app/src/main/res/layout/fragment_wx_article.xml" value="0.25885416666666666" />
+        <entry key="..\:/Programming/AndroidDemoCodes/WanAndroidDemo/app/src/main/res/layout/fragment_wx_article_show.xml" value="0.25885416666666666" />
+        <entry key="..\:/Programming/AndroidDemoCodes/WanAndroidDemo/app/src/main/res/layout/fragment_wx_author.xml" value="0.25885416666666666" />
       </map>
     </option>
   </component>

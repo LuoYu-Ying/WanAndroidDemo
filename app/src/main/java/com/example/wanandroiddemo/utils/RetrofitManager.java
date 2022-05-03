@@ -17,4 +17,8 @@ public class RetrofitManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
+
+    public static <T> T create(Class<T> clz) {
+        return getInstance().create(clz);
+    }
 }
