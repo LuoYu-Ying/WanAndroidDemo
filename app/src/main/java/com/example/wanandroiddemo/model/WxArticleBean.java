@@ -3,15 +3,15 @@ package com.example.wanandroiddemo.model;
 import java.util.List;
 
 public class WxArticleBean {
-    private List<Data> data;
+    private Data data;
     private int errorCode;
     private String errorMsg;
 
-    public List<Data> getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(List<Data> data) {
+    public void setData(Data data) {
         this.data = data;
     }
 
@@ -31,7 +31,7 @@ public class WxArticleBean {
         this.errorMsg = errorMsg;
     }
 
-    private class Data {
+    public class Data {
         private int curPage;
         private List<Article> datas;
         private int offset;
@@ -96,7 +96,7 @@ public class WxArticleBean {
             this.total = total;
         }
 
-        private class Article {
+        public class Article {
             private String apkLink;
             private int audit;
             private String author;

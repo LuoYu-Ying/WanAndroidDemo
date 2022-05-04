@@ -4,28 +4,18 @@ import java.lang.ref.WeakReference;
 
 public abstract class BasePresenter<M extends BaseModel, V extends BaseView, CONTRACT> {
     protected M model;
-    protected WeakReference<V> weakReference;
+    protected V v;
 
     public BasePresenter() {
         this.model = getModel();
     }
 
     protected void bindView(V v) {
-        weakReference = new WeakReference<>(v);
-    }
-
-    protected void unbindView() {
-        if (weakReference != null) {
-            weakReference.clear();
-            weakReference = null;
-            System.gc();
-        }
+        this.v = v;
     }
 
     protected V getView() {
-        if (weakReference != null)
-            return weakReference.get();
-        return null;
+        return v;
     }
 
     protected abstract CONTRACT getContract();

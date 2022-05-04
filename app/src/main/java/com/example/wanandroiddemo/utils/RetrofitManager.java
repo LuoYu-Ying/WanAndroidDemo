@@ -18,7 +18,7 @@ public class RetrofitManager {
                 .build();
     }
 
-    public static <T> T create(Class<T> clz) {
-        return getInstance().create(clz);
+    public static <T> T create(Class<T> cls) {
+        return getInstance().create(cls);
     }
 }

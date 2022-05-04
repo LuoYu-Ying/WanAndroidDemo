@@ -3,20 +3,22 @@ package com.example.wanandroiddemo.base_mvp;
 import android.app.Activity;
 import android.os.Bundle;
 
-public abstract class BaseView<P extends BasePresenter, CONTRACT> extends Activity {
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+public abstract class BaseView<P extends BasePresenter, CONTRACT> extends Fragment {
     protected P presenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = getPresenter();
         presenter.bindView(this);
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-        presenter.unbindView();
     }
 
     protected abstract P getPresenter();

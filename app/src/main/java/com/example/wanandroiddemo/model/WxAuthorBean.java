@@ -31,7 +31,7 @@ public class WxAuthorBean {
         this.errorMsg = errorMsg;
     }
 
-    private class Author {
+    public class Author {
         private String author;
         private List children;
         private int courseId;
