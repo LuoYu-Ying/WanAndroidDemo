@@ -73,7 +73,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
     }
 
     private void showFirstAuthor() {
-        presenter.getContract().requestWxArticle(idList.get(0), 0);
+        //presenter.getContract().requestWxArticle(idList.get(0), 0);
     }
 
     @Override
