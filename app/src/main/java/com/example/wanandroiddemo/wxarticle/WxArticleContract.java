@@ -13,13 +13,13 @@ public interface WxArticleContract {
 
     interface View<T extends List<WxAuthorBean.Author>, P extends List<WxArticleBean.Data.Article>> {
         void handlerWxAuthor(T t);
-        void handlerWxArticle(P p);
+        void handlerWxArticle(int totalPages, P p);
     }
 
     interface Presenter<T extends List<WxAuthorBean.Author>, P extends List<WxArticleBean.Data.Article>> {
         void requestWxAuthor();
         void requestWxArticle(int id, int page);
         void returnWxAuthor(T t);
-        void returnWxArticle(P p);
+        void returnWxArticle(int totalPages, P p);
     }
 }

@@ -28,8 +28,8 @@ public class WxArticlePresenter extends BasePresenter<WxArticleModel, WxArticleF
             }
 
             @Override
-            public void returnWxArticle(List<WxArticleBean.Data.Article> articles) {
-                getView().getContract().handlerWxArticle(articles);
+            public void returnWxArticle(int totalPages, List<WxArticleBean.Data.Article> articles) {
+                getView().getContract().handlerWxArticle(totalPages, articles);
             }
         };
     }

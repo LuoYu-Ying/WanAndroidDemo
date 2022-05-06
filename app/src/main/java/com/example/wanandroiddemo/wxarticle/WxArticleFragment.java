@@ -29,14 +29,40 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
     private TabLayout tabLayout;
     private RecyclerView recyclerView;
     private ArrayList<Integer> idList = new ArrayList<>();
-    private ArrayList<String> linkList = new ArrayList<>();
     private List<WxArticleShowBean> articleList = new ArrayList<WxArticleShowBean>();
     private WxArticleRecyclerViewAdapter adapter;
-
-    private int curPages, authorId;
+    private int curPage, authorId, pagesCount;
 
     public WxArticleFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_wx_article, container, false);
+        initView(view);
+
+        // 获取作者列表
+        presenter.getContract().requestWxAuthor();
+
+        // RecyclerView_item 事件监听
+        adapter.setOnItemClickListener(new WxArticleRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String link = articleList.get(position).link;
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                getContext().startActivity(intent);
+            }
+        });
+
+        return view;
     }
 
     private void initView(View view) {
@@ -48,47 +74,30 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        Log.d(TAG, "onCreate: onCreateSuccess");
+    private void showNewTabArticle(int position) {
+        authorId = idList.get(position);
+        curPage = 0;
+        articleList.clear();
+        presenter.getContract().requestWxArticle(authorId, curPage);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_wx_article, container, false);
-        initView(view);
-        presenter.getContract().requestWxAuthor();
-        showFirstAuthor();
-        adapter.setOnItemClickListener(new WxArticleRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkList.get(position)));
-                getContext().startActivity(intent);
-            }
-        });
-        return view;
-    }
-
-    private void showFirstAuthor() {
-        if (!idList.isEmpty()) {
-            authorId = idList.get(0);
-            curPages = 0;
-            presenter.getContract().requestWxArticle(authorId, curPages);
+    // 判断并显示下方提示内容
+    private boolean showLoadHint(int currentPage) {
+        if (currentPage == 0) {
+        } else if (currentPage >= pagesCount - 1) {
+            Toast.makeText(getActivity(), "没有更多内容了~ QAQ", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Toast.makeText(getContext(), "正在加载中~ ^_^", Toast.LENGTH_SHORT).show();
         }
+        return true;
     }
 
-    @Override
-    protected WxArticlePresenter getPresenter() {
-        return new WxArticlePresenter();
-    }
-
+    // 加载同作者更多文章
     public void loadMore() {
-        curPages++;
-        Toast.makeText(getContext(), "正在加载中~ ^_^", Toast.LENGTH_SHORT).show();
-        presenter.getContract().requestWxArticle(authorId, curPages);
+        curPage++;
+        showLoadHint(curPage);
+        presenter.getContract().requestWxArticle(authorId, curPage);
     }
 
     @Override
@@ -96,21 +105,20 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
         return new WxArticleContract.View<List<WxAuthorBean.Author>, List<WxArticleBean.Data.Article>>() {
             @Override
             public void handlerWxAuthor(List<WxAuthorBean.Author> authors) {
-                Log.d(TAG, "handlerWxAuthor: showAuthorSuccess");
                 idList.clear();
                 for (WxAuthorBean.Author author : authors) {
                     tabLayout.addTab(tabLayout.newTab().setText(author.getName()));
                     idList.add(author.getId());
                 }
+                // 获取作者列表时，显示第一个作者的文章
+                showNewTabArticle(0);
+                // TabLayout 按键监听
                 tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         int position = tab.getPosition();
                         if (authorId == idList.get(position)) return ;
-                        authorId = idList.get(position);
-                        curPages = 0;
-                        presenter.getContract().requestWxArticle(authorId, curPages);
-                        Log.d(TAG, "onTabSelected: onTabSelectedSuccess");
+                        showNewTabArticle(position);
                     }
 
                     @Override
@@ -126,21 +134,22 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
             }
 
             @Override
-            public void handlerWxArticle(List<WxArticleBean.Data.Article> articles) {
-                if (curPages == 0) {
-                    articleList.clear();
-                    linkList.clear();
-                }
-                if (articles.size() == 0) {
-                    Toast.makeText(getActivity(), "没有更多内容了~ QAQ", Toast.LENGTH_SHORT).show();
+            public void handlerWxArticle(int totalPages, List<WxArticleBean.Data.Article> articles) {
+                // 获取该作者的文章总页数
+                pagesCount = totalPages;
+                if (!showLoadHint(curPage)) {
                     return ;
                 }
                 for (WxArticleBean.Data.Article article : articles) {
-                    articleList.add(new WxArticleShowBean(article.getTitle(), article.getNiceDate()));
-                    linkList.add(article.getLink());
+                    articleList.add(new WxArticleShowBean(article.getTitle(), article.getNiceDate(), article.getLink()));
                 }
                 adapter.notifyDataSetChanged();
             }
         };
+    }
+
+    @Override
+    protected WxArticlePresenter getPresenter() {
+        return new WxArticlePresenter();
     }
 }

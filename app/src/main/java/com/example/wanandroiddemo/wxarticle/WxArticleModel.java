@@ -47,7 +47,8 @@ public class WxArticleModel extends BaseModel<WxArticlePresenter, WxArticleContr
                     @Override
                     public void onResponse(Call<WxArticleBean> call, Response<WxArticleBean> response) {
                         List<WxArticleBean.Data.Article> articles = response.body().getData().getDatas();
-                        presenter.getContract().returnWxArticle(articles);
+                        int pages = response.body().getData().getPageCount();
+                        presenter.getContract().returnWxArticle(pages, articles);
                     }
 
                     @Override

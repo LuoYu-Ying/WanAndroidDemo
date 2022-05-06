@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wanandroiddemo.R;
 import com.example.wanandroiddemo.model.WxArticleShowBean;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WxArticleRecyclerViewAdapter extends RecyclerView.Adapter<WxArticleRecyclerViewAdapter.ViewHolder> implements View.OnClickListener {
     private List<WxArticleShowBean> list;
     private OnItemClickListener onItemClickListener;
     private WxArticleFragment fragment;
+    private Map<Integer, Boolean> map = new HashMap<>();
 
     public WxArticleRecyclerViewAdapter(List<WxArticleShowBean> list, WxArticleFragment fragment) {
         this.list = list;
@@ -47,8 +50,6 @@ public class WxArticleRecyclerViewAdapter extends RecyclerView.Adapter<WxArticle
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.setData(list.get(position), position);
         holder.itemView.setTag(position);
-        if (position == getItemCount() - 1)
-            fragment.loadMore();
 
     }
 
@@ -71,6 +72,9 @@ public class WxArticleRecyclerViewAdapter extends RecyclerView.Adapter<WxArticle
             this.position = position;
             title.setText(itemView.title);
             date.setText(itemView.date);
+            if (position == getItemCount() - 1) {
+                fragment.loadMore();
+            }
         }
     }
 }
