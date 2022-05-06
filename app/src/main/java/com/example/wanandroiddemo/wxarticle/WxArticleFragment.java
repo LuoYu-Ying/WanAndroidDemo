@@ -73,7 +73,11 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
     }
 
     private void showFirstAuthor() {
-        presenter.getContract().requestWxArticle(idList.get(0), 0);
+        if (!idList.isEmpty()) {
+            authorId = idList.get(0);
+            curPages = 0;
+            presenter.getContract().requestWxArticle(authorId, curPages);
+        }
     }
 
     @Override
@@ -107,7 +111,6 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
                         curPages = 0;
                         presenter.getContract().requestWxArticle(authorId, curPages);
                         Log.d(TAG, "onTabSelected: onTabSelectedSuccess");
-//                        Toast.makeText(getContext(), "id = " + authorId + "\ncurPage = " + curPages, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
