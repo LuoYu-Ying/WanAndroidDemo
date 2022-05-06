@@ -67,10 +67,10 @@ public class WxArticleRecyclerViewAdapter extends RecyclerView.Adapter<WxArticle
             date = itemView.findViewById(R.id.tv_wx_article_date);
         }
 
-        public void setData(WxArticleShowBean item, int position) {
+        public void setData(WxArticleShowBean itemView, int position) {
             this.position = position;
-            title.setText(item.title);
-            date.setText(item.date);
+            title.setText(itemView.title);
+            date.setText(itemView.date);
         }
     }
 }

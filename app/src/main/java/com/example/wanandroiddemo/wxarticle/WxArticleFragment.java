@@ -51,7 +51,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: onCreateSuccess");
+//        Log.d(TAG, "onCreate: onCreateSuccess");
     }
 
     @Override
@@ -61,6 +61,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
         View view = inflater.inflate(R.layout.fragment_wx_article, container, false);
         initView(view);
         presenter.getContract().requestWxAuthor();
+        showFirstAuthor();
         adapter.setOnItemClickListener(new WxArticleRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -71,6 +72,10 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
         return view;
     }
 
+    private void showFirstAuthor() {
+        presenter.getContract().requestWxArticle(idList.get(0), 0);
+    }
+
     @Override
     protected WxArticlePresenter getPresenter() {
         return new WxArticlePresenter();
@@ -78,6 +83,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
 
     public void loadMore() {
         curPages++;
+        Toast.makeText(getContext(), "正在加载中~ ^_^", Toast.LENGTH_SHORT).show();
         presenter.getContract().requestWxArticle(authorId, curPages);
     }
 
@@ -96,6 +102,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         int position = tab.getPosition();
+                        if (authorId == idList.get(position)) return ;
                         authorId = idList.get(position);
                         curPages = 0;
                         presenter.getContract().requestWxArticle(authorId, curPages);
@@ -122,7 +129,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
                     linkList.clear();
                 }
                 if (articles.size() == 0) {
-                    Toast.makeText(getActivity(), "没有更多内容了 QAQ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "没有更多内容了~ QAQ", Toast.LENGTH_SHORT).show();
                     return ;
                 }
                 for (WxArticleBean.Data.Article article : articles) {
