@@ -36,12 +36,13 @@ public class LoginModel extends BaseModel<LoginPresenter,LoginContract.Model> {
                     public void onResponse(Call<UserInformation> call, Response<UserInformation> response) {
 
                         if (response.body() != null){
-                            final UserInformation userInfo = new UserInformation();
-                            userInfo.setErrorCode(response.body().getErrorCode());
-                            userInfo.setErrorMsg(response.body().getErrorMsg());
-                            userInfo.setData(response.body().getData());
-                            Log.d("login", userInfo.getData().getNickname());
-                            presenter.getContract().responseResult(userInfo);
+                           // 登录验证没做
+//                            final UserInformation userInfo = new UserInformation();
+//                            userInfo.setErrorCode(response.body().getErrorCode());
+//                            userInfo.setErrorMsg(response.body().getErrorMsg());
+//                            userInfo.setData(response.body().getData());
+//                            Log.d("login", userInfo.getData().getNickname());
+//                            presenter.getContract().responseResult(userInfo);
                         }
                     }
 

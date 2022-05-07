@@ -62,9 +62,9 @@ public class LoginFragment  extends BaseView<LoginPresenter,LoginContract.View> 
             public void handlerUesrInfo(UserInformation userInformation) {
                 String name = userInformation.getData().getPublicName();
                 Toast.makeText(getActivity(),name,Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), MyFragment.class);
-                intent.putExtra("UserInfo",userInformation);
-                startActivity(intent);
+                //Intent intent = new Intent(getActivity(), MyFragment.class);
+                //intent.putExtra("UserInfo",userInformation);
+               // startActivity(intent);
             }
         };
     }
