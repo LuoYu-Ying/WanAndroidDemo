@@ -1,5 +1,6 @@
 package com.example.wanandroiddemo.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.wanandroiddemo.R;
 import com.example.wanandroiddemo.base_mvp.BaseView;
 import com.example.wanandroiddemo.model.UserInformation;
+import com.example.wanandroiddemo.my.MyFragment;
 import com.example.wanandroiddemo.utils.EditTextWithClear;
 
 /**
@@ -60,6 +62,9 @@ public class LoginFragment  extends BaseView<LoginPresenter,LoginContract.View> 
             public void handlerUesrInfo(UserInformation userInformation) {
                 String name = userInformation.getData().getPublicName();
                 Toast.makeText(getActivity(),name,Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), MyFragment.class);
+                intent.putExtra("UserInfo",userInformation);
+                startActivity(intent);
             }
         };
     }

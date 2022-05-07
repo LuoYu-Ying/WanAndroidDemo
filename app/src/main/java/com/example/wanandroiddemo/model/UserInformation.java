@@ -1,5 +1,6 @@
 package com.example.wanandroiddemo.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * @Description
  * @CreateDate 2022/5/6
  */
-public class UserInformation {
+public class UserInformation implements Serializable {
     public UserInformation() {
     }
 
