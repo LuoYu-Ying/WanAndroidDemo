@@ -1,4 +1,4 @@
-package com.example.wanandroiddemo.my;
+package com.example.wanandroiddemo.system;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -17,12 +17,13 @@ import com.example.wanandroiddemo.wxarticle.WxArticleRecyclerViewAdapter;
  * @Description
  * @CreateDate 2022/5/5
  */
-public class myFragment extends Fragment {
+public class SystemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_system, container, false);
+
         return view;
     }
 }

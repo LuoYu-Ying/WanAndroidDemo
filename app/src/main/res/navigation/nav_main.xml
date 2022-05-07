@@ -17,12 +17,12 @@
         tools:layout="@layout/fragment_wx_article" />
     <fragment
         android:id="@+id/system_fragment"
-        android:name="com.example.wanandroiddemo.system.systemFragment"
+        android:name="com.example.wanandroiddemo.system.SystemFragment"
         android:label="systemFragment"
         tools:layout="@layout/fragment_system" />
     <fragment
         android:id="@+id/my_fragment"
-        android:name="com.example.wanandroiddemo.my.myFragment"
+        android:name="com.example.wanandroiddemo.my.MyFragment"
         android:label="MyFragment"
         tools:layout="@layout/fragment_my" />
 
