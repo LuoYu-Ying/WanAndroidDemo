@@ -24,7 +24,7 @@ public class LoginPresenter extends BasePresenter<LoginModel,LoginFragment,Login
 
             @Override
             public void responseResult(UserInformation userInformation) {
-                getView().getContract().handlerUesrInfo(userInformation);
+                getView().getContract().handlerUserInfo(userInformation);
             }
         };
     }

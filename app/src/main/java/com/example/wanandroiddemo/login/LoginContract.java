@@ -16,7 +16,7 @@ public interface LoginContract{
     }
     interface View<T extends UserInformation>{
         //处理结果
-        void handlerUesrInfo(T t);
+        void handlerUserInfo(T t);
     }
     interface Presenter<T extends UserInformation>{
         //登录请求(接受到View层指令，让Model层执行）
