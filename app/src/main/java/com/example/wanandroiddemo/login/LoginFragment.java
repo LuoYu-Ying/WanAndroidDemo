@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.wanandroiddemo.MainActivity;
 import com.example.wanandroiddemo.R;
 import com.example.wanandroiddemo.base_mvp.BaseView;
 import com.example.wanandroiddemo.model.UserInformation;
@@ -69,7 +70,9 @@ public class LoginFragment  extends BaseView<LoginPresenter,LoginContract.View> 
             public void handlerUserInfo(UserInformation userInformation) {
                if(userInformation.getErrorCode()==0){
                    Toast.makeText(getActivity(),"登录成功",Toast.LENGTH_SHORT).show();
-                   getActivity().finish();
+                   Intent intent = new Intent(getActivity(), MainActivity.class);
+                   intent.putExtra("userInfo",userInformation);
+                   startActivity(intent);
                }else{
                    AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                    dialog.setMessage(userInformation.getErrorMsg());

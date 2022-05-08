@@ -40,7 +40,7 @@ public class UserInformation implements Serializable {
         this.errorMsg = errorMsg;
     }
 
-    public static class Data {
+    public static class Data implements Serializable {
         private boolean admin;
         private List<?> chapterTops;
         private int coinCount;
