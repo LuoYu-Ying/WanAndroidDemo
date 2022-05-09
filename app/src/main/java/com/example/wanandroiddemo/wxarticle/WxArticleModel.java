@@ -22,7 +22,7 @@ public class WxArticleModel extends BaseModel<WxArticlePresenter, WxArticleContr
 
     @Override
     protected WxArticleContract.Model getContract() {
-        WxArticleService service = RetrofitManager.getInstance().create(WxArticleService.class);
+        WxArticleService service = RetrofitManager.create(WxArticleService.class);
 
         return new WxArticleContract.Model() {
             @Override

@@ -27,7 +27,7 @@ public class LoginModel extends BaseModel<LoginPresenter,LoginContract.Model> {
 
     @Override
     protected LoginContract.Model getContract() {
-        LoginService service = RetrofitManager.getInstance().create(LoginService.class);
+        LoginService service = RetrofitManager.create(LoginService.class);
         return new LoginContract.Model() {
             @Override
             public void executeLogin(String username, String password) throws Exception {

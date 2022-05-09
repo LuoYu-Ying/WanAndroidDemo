@@ -76,13 +76,15 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
     }
 
     private void initView(View view) {
-        swipeRefreshLayout = view.findViewById(R.id.srl_wx_article);
-        tabLayout = view.findViewById(R.id.tl_wx_author);
-        recyclerView = view.findViewById(R.id.rv_wx_article);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_wx_article);
+        tabLayout = (TabLayout) view.findViewById(R.id.tl_wx_author);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_wx_article);
         adapter = new WxArticleRecyclerViewAdapter(articleList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+
     }
 
     private void showNewTabArticle(int position) {
