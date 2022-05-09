@@ -1,6 +1,8 @@
 package com.example.wanandroiddemo.wxarticle;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,17 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.wanandroiddemo.R;
 import com.example.wanandroiddemo.base_mvp.BaseView;
 import com.example.wanandroiddemo.model.WxArticleBean;
-import com.example.wanandroiddemo.model.WxArticleShowBean;
+import com.example.wanandroiddemo.model.ArticleItemBean;
 import com.example.wanandroiddemo.model.WxAuthorBean;
+import com.example.wanandroiddemo.utils.ArticleRecyclerViewAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -30,8 +33,8 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
     private TabLayout tabLayout;
     private RecyclerView recyclerView;
     private ArrayList<Integer> idList = new ArrayList<>();
-    private List<WxArticleShowBean> articleList = new ArrayList<WxArticleShowBean>();
-    private WxArticleRecyclerViewAdapter adapter;
+    private List<ArticleItemBean> articleList = new ArrayList<ArticleItemBean>();
+    private ArticleRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private int curPage, authorId, pagesCount, tabPosition;
 
@@ -55,12 +58,28 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
         presenter.getContract().requestWxAuthor();
 
         // RecyclerView_item 事件监听
-        adapter.setOnItemClickListener(new WxArticleRecyclerViewAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new ArticleRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String link = articleList.get(position).link;
+                String link = articleList.get(position).getLink();
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                 getContext().startActivity(intent);
+            }
+
+            @Override
+            public void addFavArticle(int id) {
+                presenter.getContract().addFavArticle(id);
+            }
+
+            @Override
+            public void deleteArticle(int id) {
+                presenter.getContract().deleteFavArticle(id);
+            }
+
+
+            @Override
+            public void loadMore() {
+                loadMore();
             }
         });
 
@@ -79,7 +98,8 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_wx_article);
         tabLayout = (TabLayout) view.findViewById(R.id.tl_wx_author);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_wx_article);
-        adapter = new WxArticleRecyclerViewAdapter(articleList, this);
+        adapter = new ArticleRecyclerViewAdapter(articleList);
+        adapter.setFragment(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -137,16 +157,15 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
 
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
-
                     }
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-
                     }
                 });
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void handlerWxArticle(int totalPages, List<WxArticleBean.Data.Article> articles) {
                 // 获取该作者的文章总页数
@@ -155,7 +174,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
                     return ;
                 }
                 for (WxArticleBean.Data.Article article : articles) {
-                    articleList.add(new WxArticleShowBean(article.getTitle(), article.getNiceDate(), article.getLink()));
+                    articleList.add(new ArticleItemBean(article.getAuthor(), article.getTitle(), article.getNiceDate(), article.getLink(), article.isCollect(), article.getId()));
                 }
                 adapter.notifyDataSetChanged();
             }

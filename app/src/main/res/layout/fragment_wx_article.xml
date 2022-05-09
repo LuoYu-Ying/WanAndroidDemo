@@ -11,14 +11,17 @@
         android:id="@+id/tl_wx_author"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clickable="true"
+        android:background="#66ccff"
+        android:clickable="false"
         android:elevation="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        app:tabBackground="@android:color/transparent"
         app:tabMode="scrollable"
+        app:tabRippleColor="@android:color/transparent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -23,6 +23,16 @@ public class WxArticlePresenter extends BasePresenter<WxArticleModel, WxArticleF
             }
 
             @Override
+            public void addFavArticle(int articleId) {
+                model.getContract().addFavArticle(articleId);
+            }
+
+            @Override
+            public void deleteFavArticle(int articleId) {
+                model.getContract().deleteFavArticle(articleId);
+            }
+
+            @Override
             public void returnWxAuthor(List<WxAuthorBean.Author> authors) {
                 getView().getContract().handlerWxAuthor(authors);
             }

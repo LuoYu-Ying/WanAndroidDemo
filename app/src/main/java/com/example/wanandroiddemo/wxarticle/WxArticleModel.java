@@ -57,6 +57,36 @@ public class WxArticleModel extends BaseModel<WxArticlePresenter, WxArticleContr
                     }
                 });
             }
+
+            @Override
+            public void addFavArticle(int articleId) {
+                service.postFavArticle(articleId).enqueue(new Callback<WxArticleBean>() {
+                    @Override
+                    public void onResponse(Call<WxArticleBean> call, Response<WxArticleBean> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<WxArticleBean> call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void deleteFavArticle(int articleId) {
+                service.cancelFavArticle(articleId).enqueue(new Callback<WxArticleBean>() {
+                    @Override
+                    public void onResponse(Call<WxArticleBean> call, Response<WxArticleBean> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<WxArticleBean> call, Throwable t) {
+
+                    }
+                });
+            }
         };
     }
 

@@ -9,6 +9,8 @@ public interface WxArticleContract {
     interface Model {
         void downloadWxAuthor();
         void downloadWxArticle(int id, int page);
+        void addFavArticle(int articleId);
+        void deleteFavArticle(int articleId);
     }
 
     interface View<T extends List<WxAuthorBean.Author>, P extends List<WxArticleBean.Data.Article>> {
@@ -19,6 +21,8 @@ public interface WxArticleContract {
     interface Presenter<T extends List<WxAuthorBean.Author>, P extends List<WxArticleBean.Data.Article>> {
         void requestWxAuthor();
         void requestWxArticle(int id, int page);
+        void addFavArticle(int articleId);
+        void deleteFavArticle(int articleId);
         void returnWxAuthor(T t);
         void returnWxArticle(int totalPages, P p);
     }
