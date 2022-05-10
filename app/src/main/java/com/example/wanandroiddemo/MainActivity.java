@@ -30,14 +30,15 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment =
                 (NavHostFragment) supportFragmentManager.findFragmentById(R.id.fragmentContainerView);
         navController = navHostFragment.getNavController();
-        appBarConfiguration =  new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+//        appBarConfiguration =  new AppBarConfiguration.Builder(navController.getGraph()).build();
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
     @Override
     public boolean onNavigateUp() {
-        return navController.navigateUp();
+//        return navController.navigateUp();
+        return super.onNavigateUp();
     }
 
     public void setHasLogin(boolean hasLogin) {
