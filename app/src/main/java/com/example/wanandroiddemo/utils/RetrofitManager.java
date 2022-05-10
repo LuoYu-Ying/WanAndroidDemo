@@ -22,6 +22,10 @@ public class RetrofitManager {
                 .build();
     }
 
+    private static boolean isCookieSaved() {
+        return new CookieDao().isCookieSaved();
+    }
+
     public static <T> T create(Class<T> cls) {
         return getInstance().create(cls);
     }

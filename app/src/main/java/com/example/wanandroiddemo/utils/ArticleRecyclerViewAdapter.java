@@ -18,16 +18,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ 更加通用的 Adapter。
+ 按键监听 请使用 adapter.setOnItemClickLister() 方法。
+ 需要实现四个方法：
+ onItemClick() : 卡片点击事件
+ addFavArticle() : 添加收藏
+ deleteFavArticle() : 取消收藏
+ loadMore() : 加载更多
+ */
+
 public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<ArticleRecyclerViewAdapter.ViewHolder> implements View.OnClickListener {
     private List<ArticleItemBean> list;
     private OnItemClickListener onItemClickListener;
     private Map<Integer, Boolean> map = new HashMap<>();
-    private WxArticleFragment fragment;
-
-
-    public void setFragment(WxArticleFragment fragment) {
-        this.fragment = fragment;
-    }
 
     public ArticleRecyclerViewAdapter(List<ArticleItemBean> list) {
         this.list = list;
@@ -103,8 +107,9 @@ public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<ArticleRecy
                         list.get(position).setFav(false);
                         Toast.makeText(MyApp.context, "取消成功！", Toast.LENGTH_SHORT).show();
                     } else {
-                        fav.setImageResource(R.drawable.ic_baseline_favorite_24);
                         onItemClickListener.addFavArticle(id);
+
+                        fav.setImageResource(R.drawable.ic_baseline_favorite_24);
                         list.get(position).setFav(true);
                         Toast.makeText(MyApp.context, "收藏成功！", Toast.LENGTH_SHORT).show();
 //                        ToastUtils.show("收藏成功！", 1000);
@@ -112,7 +117,7 @@ public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<ArticleRecy
                 }
             });
             if (position == getItemCount() - 1) {
-                fragment.loadMore();
+                onItemClickListener.loadMore();
             }
         }
     }

@@ -12,4 +12,5 @@ public class CookieForClient {
     public OkHttpClient getReceiveInterceptor() {
         return builder.addInterceptor(new ReceiveCookieInterceptor()).build();
     }
+
 }

@@ -17,12 +17,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.wanandroiddemo.MainActivity;
 import com.example.wanandroiddemo.R;
 import com.example.wanandroiddemo.base_mvp.BaseView;
 import com.example.wanandroiddemo.model.WxArticleBean;
 import com.example.wanandroiddemo.model.ArticleItemBean;
 import com.example.wanandroiddemo.model.WxAuthorBean;
 import com.example.wanandroiddemo.utils.ArticleRecyclerViewAdapter;
+import com.example.wanandroiddemo.utils.CookieDao;
+import com.example.wanandroiddemo.utils.RetrofitManager;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -79,7 +82,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
 
             @Override
             public void loadMore() {
-                loadMore();
+                loadMoreArticles();
             }
         });
 
@@ -99,7 +102,6 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
         tabLayout = (TabLayout) view.findViewById(R.id.tl_wx_author);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_wx_article);
         adapter = new ArticleRecyclerViewAdapter(articleList);
-        adapter.setFragment(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -128,7 +130,7 @@ public class WxArticleFragment extends BaseView<WxArticlePresenter, WxArticleCon
     }
 
     // 加载同作者更多文章
-    public void loadMore() {
+    public void loadMoreArticles() {
         curPage++;
         showLoadHint(curPage);
         presenter.getContract().requestWxArticle(authorId, curPage);
